@@ -1,0 +1,16 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "imdbId": { "type": "string" },
+      "title": { "type": "string" },
+      "genres": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "releaseDate": { "type": "string" },
+      "budget": { "type": "string" }
+    }
+  }
+}
