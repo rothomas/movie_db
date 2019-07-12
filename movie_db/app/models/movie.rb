@@ -37,7 +37,20 @@ class Movie < MovieDbRecord
       where(releaseDate: year_range(year)).order(releaseDate: direction)
     end
   }
-  scope :for_show, ->(id) { select(SHOW_FIELDS).where(imdbId: id).first }
+  scope :for_show, ->(id) { select(SHOW_FIELDS).where(imdbId: id).all.first }
+
+  scope :by_genre, lambda { |query|
+    genre_name = query[:genre]
+    if genre_name.nil?
+      all
+    else
+      genre = Genre.find_by(name: genre_name)
+      if genre.is_a?(Genre)
+        movie_ids = MoviesGenres.where(genre_id: genre.id).map(&:movieId)
+        where(movieId: movie_ids)
+      end
+    end
+  }
 
   # PAGINATION
   scope :page_limit, -> { limit(PAGE_SIZE) }
@@ -74,4 +87,18 @@ class Movie < MovieDbRecord
   def extract_names(field)
     JSON.parse(field).map { |f| f['name'] }
   end
+
+  def extract_genres
+    genre_list = JSON.parse(genres)
+    genre_list.each do |genre|
+      record = Genre.find_or_create_by!(genre)
+      MoviesGenres.find_or_create_by!(movieId: movieId, genre_id: record.id)
+    end
+  end
+
+  def self.extract_all_genres
+    all.each(&:extract_genres)
+  end
+
+
 end

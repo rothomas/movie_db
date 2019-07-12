@@ -1,0 +1,3 @@
+class MoviesGenres < ApplicationRecord
+
+end

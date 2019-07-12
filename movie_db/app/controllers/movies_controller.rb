@@ -7,6 +7,7 @@ class MoviesController < ApplicationController
     query = validate_index_params
     @movies = Movie.for_index
                    .by_year(query)
+                   .by_genre(query)
                    .paginated(query)
                    .map(&:index_representation)
     render json: @movies.to_json
@@ -14,14 +15,23 @@ class MoviesController < ApplicationController
 
   def show
     id = params.require(:id)
-    @movie = Movie.for_show(id).show_representation
-    render json: @movie.to_json
+    @movie = Movie.for_show(id)
+    if @movie.is_a?(Movie)
+      render json: @movie.show_representation.to_json
+    else
+      render status: 204
+    end
+  end
+
+  def extract
+    Movie.extract_all_genres
+    render status: 204
   end
 
   private
 
   def validate_index_params
-    query = params.permit(:year, :sort, :page)
+    query = params.permit(:year, :sort, :page, :genre)
     unless query[:year].nil? || query[:year].match?(/^[0-9]{4}$/)
       render status: 400, body: "Invalid year: #{query[:year]}"
     end
