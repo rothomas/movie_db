@@ -5,12 +5,12 @@ default: &default
 
 development:
   <<: *default
-  database: db/ratings_development.sqlite3
+  database: db/ratings.db
 
 test:
   <<: *default
-  database: db/ratings_test.sqlite3
+  database: db/ratings.db
 
 production:
   <<: *default
-  database: db/ratings_production.sqlite3
+  database: db/ratings.db
