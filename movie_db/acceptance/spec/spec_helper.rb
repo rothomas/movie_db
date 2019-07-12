@@ -104,8 +104,8 @@ end
 
 def get(path_and_query)
     scheme = ((ENV['SSL'] || 'false') == 'true') ? 'https' : 'http'
-    host = ENV['host'] || 'localhost'
-    port = ENV['port'] || '3000'
+    host = ENV['HOST'] || 'localhost'
+    port = ENV['PORT'] || '3000'
     fixed_path_and_query = path_and_query.sub(/^\//, '')
     url = "#{scheme}://#{host}:#{port}/#{fixed_path_and_query}"
 	HTTParty.get(url)
