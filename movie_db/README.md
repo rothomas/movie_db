@@ -1,4 +1,4 @@
-#Movie DB
+# Movie DB
 
 This project implements a simple movie database as an exercise. I've made no functional changes to the code, but added this 
 README and made a couple of minor changes for GitHub distribution.
@@ -10,7 +10,7 @@ Here is how to get it to run:
  - Run `rails db:migrate` to build the local database (used for genres).
  - Run `rails s`
  
- ###Alternative: Docker
+ ### Alternative: Docker
  If you prefer, you can also use the included `Dockerfile`.  This will build a
  `ruby:2.6.3-alpine` image and perform bundler and migration steps. 
  
@@ -18,7 +18,7 @@ Here is how to get it to run:
  - Run `docker build -t movie_db .` in the root to build a docker image.
  - Run `docker run -it --rm -p 3000:3000 movie_db` to start the server.
  
- ##Notes
+ ## Notes
  - There currently aren't any unit tests.  I started with acceptance tests, which
  are found as a separate project, using RSpec and HTTParty, in the `/acceptance` 
  directory.  Run them while the server is up.  You can configure the tests with
@@ -30,7 +30,7 @@ Here is how to get it to run:
  the movie table.  Do this by hitting `http://localhost:3000/extract`.  It will run for
  a while, extracting the genres from each movie and building up the genre and join tables.
  
- ##API
+ ## API
  - `/extract` - Utility endpoint for pulling all genre data into tables.
  Probably better as a rake task, but I haven't written one in a while and was timeboxed.
  
